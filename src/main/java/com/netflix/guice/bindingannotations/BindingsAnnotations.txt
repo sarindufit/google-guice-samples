@@ -1,0 +1,18 @@
+-----------------------   @Named   ----------------------------------
+
+Guice comes with a built-in binding annotation @Named that takes a string:
+
+public class RealBillingService implements BillingService {
+
+  @Inject
+  public RealBillingService(@Named("Checkout") CreditCardProcessor processor,
+      TransactionLog transactionLog) {
+    ...
+  }
+To bind a specific name, use Names.named() to create an instance to pass to annotatedWith:
+
+    bind(CreditCardProcessor.class)
+        .annotatedWith(Names.named("Checkout"))
+        .to(CheckoutCreditCardProcessor.class);
+        
+Since the compiler can't check the string, we recommend using @Named sparingly. Defining your own purpose-built annotations provides better type-safety.
